@@ -1250,7 +1250,9 @@
       gap: 1rem;
       position: relative;
       overflow: hidden;
-      transition: all 0.5s var(--ease-out-expo);
+      transition: border-color 0.5s var(--ease-out-expo),
+        box-shadow 0.5s var(--ease-out-expo),
+        transform 0.5s var(--ease-out-expo);
     }
 
     .about-visual:hover {
@@ -2743,14 +2745,333 @@
         text-align: center;
       }
     }
+
+    /* ============================================
+       WOW FACTOR (opencode branch)
+       preloader · scroll progress · custom cursor
+       liquid glitch · hero particles · magnetic · scramble
+       ============================================ */
+
+    .preloader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-lg);
+      z-index: 100000;
+      transition: opacity 0.7s var(--ease-out-expo), visibility 0.7s, transform 0.7s var(--ease-out-expo);
+    }
+
+    .preloader.done {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(1.035);
+    }
+
+    .preloader-logo {
+      font-family: var(--font-head);
+      font-size: var(--text-6xl);
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.04em;
+      transition: letter-spacing 0.7s var(--ease-out-expo), opacity 0.7s;
+    }
+
+    .preloader.done .preloader-logo {
+      letter-spacing: 0.08em;
+    }
+
+    .preloader-logo span {
+      color: var(--accent);
+    }
+
+    /* Hide preloader text until the Syne webfont is ready — prevents the
+       fallback-font (narrow M) -> Syne (wide M) swap flash at ~1-1.5s */
+    .preloader-logo,
+    .preloader-count {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.25s var(--ease-sine), transform 0.25s var(--ease-sine);
+    }
+
+    .preloader.wow-fonts-ready .preloader-logo,
+    .preloader.wow-fonts-ready .preloader-count {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .preloader-bar {
+      width: 180px;
+      height: 2px;
+      background: var(--border-strong);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .preloader-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.12s linear;
+    }
+
+    .preloader-count {
+      font-family: var(--font-head);
+      font-size: var(--text-sm);
+      color: var(--muted);
+      letter-spacing: 0.35em;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      z-index: 10000;
+      pointer-events: none;
+    }
+
+    .cursor-dot,
+    .cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      border-radius: var(--radius-full);
+      pointer-events: none;
+      z-index: 99999;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      will-change: transform;
+    }
+
+    .cursor-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .cursor-ring {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid rgba(212, 255, 71, 0.4);
+      transition: width 0.25s var(--ease-out-expo),
+        height 0.25s var(--ease-out-expo),
+        border-color 0.25s,
+        background 0.25s,
+        opacity 0.3s;
+    }
+
+    .cursor-ring.hovering {
+      width: 58px;
+      height: 58px;
+      border-color: rgba(212, 255, 71, 0.9);
+      background: rgba(212, 255, 71, 0.08);
+    }
+
+    .cursor-ring.pressed {
+      width: 24px;
+      height: 24px;
+      border-color: var(--accent2);
+    }
+
+    @media (pointer: fine) {
+      html.wow-cursor,
+      html.wow-cursor * {
+        cursor: none !important;
+      }
+    }
+
+    @media (pointer: coarse) {
+      .cursor-dot,
+      .cursor-ring {
+        display: none;
+      }
+    }
+
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-badge,
+    .hero-title,
+    .hero-bottom {
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn-primary,
+    .btn-ghost,
+    .nav-logo {
+      will-change: transform;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .preloader {
+        display: none;
+      }
+    }
+
+    /* ============================================
+       WOW ROUND 2 — visual elements
+       grain · spotlight · shimmer · nav glass
+       stat counters · marquee pause · logo spin
+       ============================================ */
+
+    .grain-overlay {
+      position: fixed;
+      inset: -100%;
+      width: 300%;
+      height: 300%;
+      pointer-events: none;
+      z-index: 99998;
+      opacity: 0.032;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      animation: grain-shift 0.9s steps(6) infinite;
+    }
+
+    @keyframes grain-shift {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-4%, 3%); }
+      40% { transform: translate(3%, -5%); }
+      60% { transform: translate(-3%, 4%); }
+      80% { transform: translate(4%, -3%); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .grain-overlay {
+        display: none;
+      }
+    }
+
+    .pricing-card .wow-spotlight {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%),
+        rgba(212, 255, 71, 0.09) 0%,
+        rgba(212, 255, 71, 0.035) 35%,
+        transparent 70%);
+      opacity: 0;
+      transition: opacity 0.35s var(--ease-sine);
+      z-index: 1;
+    }
+
+    .pricing-card:hover .wow-spotlight {
+      opacity: 1;
+    }
+
+    .hero-title .line2 {
+      background: linear-gradient(110deg,
+        var(--text) 0%, var(--text) 38%,
+        var(--accent) 50%, var(--text) 62%, var(--text) 100%);
+      background-size: 250% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: wow-shimmer 4.5s var(--ease-sine) infinite;
+    }
+
+    @keyframes wow-shimmer {
+      0% { background-position: 120% 0; }
+      100% { background-position: -120% 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-title .line2 {
+        animation: none;
+        background: none;
+        -webkit-text-fill-color: var(--accent);
+        color: var(--accent);
+      }
+    }
+
+    nav.wow-glass {
+      background: linear-gradient(180deg, rgba(10, 10, 10, 0.72) 0%, rgba(10, 10, 10, 0.55) 100%);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-bottom: 1px solid transparent;
+      background-size: 100% 200%;
+    }
+
+    nav.wow-glass.scrolled {
+      border-bottom-color: rgba(212, 255, 71, 0.14);
+      box-shadow: 0 4px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(212, 255, 71, 0.06);
+      background: linear-gradient(180deg, rgba(10, 10, 10, 0.92) 0%, rgba(10, 10, .96) 100%);
+    }
+
+    .stat-box {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-box .stat-fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 1.4s var(--ease-out-expo) 0.2s;
+      z-index: 2;
+    }
+
+    .stat-box.wow-counted .stat-fill {
+      width: 100%;
+    }
+
+    .wow-marquee-pause:hover .marquee-track {
+      animation-play-state: paused !important;
+    }
+
+    .nav-logo .wow-logo-dot {
+      display: inline-block;
+      animation: wow-logo-spin 6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+      transform-origin: center;
+    }
+
+    @keyframes wow-logo-spin {
+      0%, 15% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(180deg) scale(1.25); }
+      35% { transform: rotate(360deg) scale(1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
   </style>
 </head>
 
 <body>
 
+  <!-- WOW: PRELOADER -->
+  <div class="preloader" id="wow-preloader">
+    <div class="preloader-logo">M<span>.</span></div>
+    <div class="preloader-bar"><div class="preloader-bar-fill" id="wow-preloader-fill"></div></div>
+    <div class="preloader-count" id="wow-preloader-count">0%</div>
+  </div>
+
+  <!-- WOW: SCROLL PROGRESS -->
+  <div class="scroll-progress" id="wow-scroll-progress"></div>
+
+  <!-- WOW: CUSTOM CURSOR -->
+  <div class="cursor-dot" id="wow-cursor-dot"></div>
+  <div class="cursor-ring" id="wow-cursor-ring"></div>
+
+  <!-- WOW R2: FILM GRAIN OVERLAY -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
   <!-- NAV -->
   <nav>
-    <a href="#" class="nav-logo">M<span>.</span></a>
+    <a href="#" class="nav-logo">M<span class="wow-logo-dot">.</span></a>
     <button class="nav-toggle" aria-label="Toggle menu">
       <span></span>
       <span></span>
@@ -2768,6 +3089,7 @@
 
   <!-- HERO -->
   <section class="hero">
+    <canvas class="hero-particles" id="wow-hero-particles"></canvas>
     <div class="hero-bg-text">MUAAZ</div>
 
     <div class="hero-badge">
@@ -3461,6 +3783,7 @@
 
       <!-- CARD 1: STARTER -->
       <div class="pricing-card">
+        <div class="wow-spotlight" aria-hidden="true"></div>
         <div class="pricing-header">
           <span class="pricing-tier-tag">QUICK LAUNCH</span>
           <h3 class="pricing-name">Starter Showcase</h3>
@@ -3512,6 +3835,7 @@
 
       <!-- CARD 2: BUSINESS (FEATURED) -->
       <div class="pricing-card featured">
+        <div class="wow-spotlight" aria-hidden="true"></div>
         <span class="pricing-badge">★ MOST POPULAR</span>
         <div class="pricing-header">
           <span class="pricing-tier-tag">COMPLETE DIGITAL FLAGSHIP</span>
@@ -3568,6 +3892,7 @@
 
       <!-- CARD 3: CUSTOM & E-COMMERCE -->
       <div class="pricing-card">
+        <div class="wow-spotlight" aria-hidden="true"></div>
         <div class="pricing-header">
           <span class="pricing-tier-tag">SCALE &amp; COMMERCE</span>
           <h3 class="pricing-name">Custom &amp; E-Commerce</h3>
@@ -3699,18 +4024,22 @@
         </div>
         <div class="about-stats">
           <div class="stat-box">
+            <div class="stat-fill" aria-hidden="true"></div>
             <div class="stat-num">1<span>+</span></div>
             <div class="stat-label">Projects Delivered</div>
           </div>
           <div class="stat-box">
+            <div class="stat-fill" aria-hidden="true"></div>
             <div class="stat-num">7<span>d</span></div>
             <div class="stat-label">Avg. Delivery Time</div>
           </div>
           <div class="stat-box">
+            <div class="stat-fill" aria-hidden="true"></div>
             <div class="stat-num">100<span>%</span></div>
             <div class="stat-label">Client Satisfaction</div>
           </div>
           <div class="stat-box">
+            <div class="stat-fill" aria-hidden="true"></div>
             <div class="stat-num">0<span>%</span></div>
             <div class="stat-label">Hidden Fees</div>
           </div>
@@ -3798,7 +4127,360 @@
   <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 
+  <!-- WOW: LIQUID GLITCH SVG FILTER -->
+  <svg class="wow-svg-filters" aria-hidden="true" style="position: absolute; width: 0; height: 0; pointer-events: none;">
+    <defs>
+      <filter id="wow-liquid" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.015 0.03" numOctaves="2" seed="3" result="noise">
+          <animate attributeName="baseFrequency" dur="14s" values="0.015 0.03;0.025 0.045;0.015 0.03" repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" result="disp">
+          <animate id="wow-liquid-scale" attributeName="scale" dur="2.4s" values="0;0;22;0;0" keyTimes="0;0.7;0.8;0.9;1" repeatCount="indefinite" />
+        </feDisplacementMap>
+        <feGaussianBlur in="disp" stdDeviation="0.2" />
+      </filter>
+    </defs>
+  </svg>
+
   <script>
+    /* ============================================
+       WOW FACTOR ENGINE (opencode branch)
+       ============================================ */
+    const WOW_PREFERS_REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    (function wowEngine() {
+      const prefersReduced = WOW_PREFERS_REDUCED;
+      const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+
+      /* 1. PRELOADER — 3s premium eased counter */
+      (function preloader() {
+        const pre = document.getElementById('wow-preloader');
+        const fill = document.getElementById('wow-preloader-fill');
+        const count = document.getElementById('wow-preloader-count');
+        if (!pre || prefersReduced) return;
+
+        // Wait for the Syne headline font before showing logo/count text —
+        // kills the narrow-fallback -> wide-Syne width jump on the "M."
+        const FONT_TIMEOUT = 1500;
+        const fontReady = (document.fonts && document.fonts.load)
+          ? Promise.race([
+              document.fonts.load('800 60px Syne').then(() => document.fonts.ready),
+              new Promise((res) => setTimeout(res, FONT_TIMEOUT)),
+            ])
+          : Promise.resolve();
+        fontReady.then(() => pre.classList.add('wow-fonts-ready'));
+
+        const DURATION = 3000;
+        const start = performance.now();
+        let finished = false;
+
+        // Ease: gentle start -> confident middle -> smooth settle at 100
+        const easeProgress = (t) =>
+          t < 0.5
+            ? 2 * t * t * 0.62                       // slow-in first half
+            : 0.62 + 0.38 * (1 - Math.pow(1 - (t - 0.5) / 0.5, 3)); // ease-out settle
+
+        (function tick(now) {
+          const raw = Math.min(1, (now - start) / DURATION);
+          const p = Math.min(1, easeProgress(raw));
+          const shown = Math.round(p * 100);
+          if (fill) fill.style.width = shown + '%';
+          if (count) count.textContent = shown + '%';
+          if (raw < 1) {
+            requestAnimationFrame(tick);
+          } else if (!finished) {
+            finished = true;
+            if (fill) fill.style.width = '100%';
+            if (count) count.textContent = '100%';
+            setTimeout(() => {
+              pre.classList.add('done');
+              setTimeout(() => pre.remove(), 750);
+            }, 400);
+          }
+        })(start);
+
+        // Safety guard: if rAF is throttled/paused (background tab),
+        // setTimeout still finishes the sequence on time
+        setTimeout(() => {
+          if (finished) return;
+          finished = true;
+          if (fill) fill.style.width = '100%';
+          if (count) count.textContent = '100%';
+          pre.classList.add('done');
+          setTimeout(() => pre.remove(), 750);
+        }, DURATION + 100);
+      })();
+
+      /* 2. SCROLL PROGRESS */
+      (function scrollProgress() {
+        const bar = document.getElementById('wow-scroll-progress');
+        if (!bar) return;
+        const update = () => {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          bar.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0) + ')';
+        };
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('wheel', update, { passive: true });
+        update();
+      })();
+
+      /* 3. CUSTOM CURSOR */
+      (function customCursor() {
+        if (!isFinePointer || prefersReduced) return;
+        const dot = document.getElementById('wow-cursor-dot');
+        const ring = document.getElementById('wow-cursor-ring');
+        if (!dot || !ring) return;
+        document.documentElement.classList.add('wow-cursor');
+        let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+        let rx = mx, ry = my;
+        window.addEventListener('mousemove', (e) => {
+          mx = e.clientX; my = e.clientY;
+          dot.style.opacity = '1';
+          ring.style.opacity = '1';
+        }, { passive: true });
+        document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+        (function loop() {
+          rx += (mx - rx) * 0.16;
+          ry += (my - ry) * 0.16;
+          dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+          ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+          requestAnimationFrame(loop);
+        })();
+        const hoverables = 'a, button, .c4-card, input, textarea, [role="button"]';
+        document.addEventListener('mouseover', (e) => {
+          if (e.target.closest(hoverables)) ring.classList.add('hovering');
+        });
+        document.addEventListener('mouseout', (e) => {
+          if (e.target.closest(hoverables)) ring.classList.remove('hovering');
+        });
+        document.addEventListener('mousedown', () => ring.classList.add('pressed'));
+        document.addEventListener('mouseup', () => ring.classList.remove('pressed'));
+      })();
+
+      /* 4. HERO PARTICLE NETWORK */
+      (function heroParticles() {
+        const canvas = document.getElementById('wow-hero-particles');
+        if (!canvas || prefersReduced) return;
+        const ctx = canvas.getContext('2d');
+        let W, H, parts = [], mouse = { x: -9999, y: -9999 };
+        const ACCENT = { r: 212, g: 255, b: 71 };
+        function resize() {
+          const rect = canvas.parentElement.getBoundingClientRect();
+          W = canvas.width = Math.max(1, Math.floor(rect.width));
+          H = canvas.height = Math.max(1, Math.floor(rect.height));
+        }
+        function spawn() {
+          const density = Math.min(90, Math.floor(W * H / 22000));
+          parts = Array.from({ length: density }, () => ({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.35,
+            r: Math.random() * 1.6 + 0.6
+          }));
+        }
+        canvas.parentElement.addEventListener('mousemove', (e) => {
+          const rect = canvas.getBoundingClientRect();
+          mouse.x = e.clientX - rect.left;
+          mouse.y = e.clientY - rect.top;
+        }, { passive: true });
+        canvas.parentElement.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+          for (const p of parts) {
+            p.x += p.vx; p.y += p.vy;
+            if (p.x < 0 || p.x > W) p.vx *= -1;
+            if (p.y < 0 || p.y > H) p.vy *= -1;
+          }
+          const LINK = 120;
+          for (let i = 0; i < parts.length; i++) {
+            const a = parts[i];
+            for (let j = i + 1; j < parts.length; j++) {
+              const b = parts[j];
+              const dx = a.x - b.x, dy = a.y - b.y;
+              const d = Math.hypot(dx, dy);
+              if (d < LINK) {
+                ctx.strokeStyle = `rgba(${ACCENT.r},${ACCENT.g},${ACCENT.b},${(1 - d / LINK) * 0.14})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+              }
+            }
+            const mdx = a.x - mouse.x, mdy = a.y - mouse.y;
+            const md = Math.hypot(mdx, mdy);
+            if (md < 160) {
+              ctx.strokeStyle = `rgba(${ACCENT.r},${ACCENT.g},${ACCENT.b},${(1 - md / 160) * 0.35})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+            }
+            ctx.fillStyle = `rgba(${ACCENT.r},${ACCENT.g},${ACCENT.b},0.5)`;
+            ctx.beginPath();
+            ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+          }
+          requestAnimationFrame(draw);
+        }
+        resize(); spawn();
+        window.addEventListener('resize', () => { resize(); spawn(); }, { passive: true });
+        draw();
+      })();
+
+      /* 5. MAGNETIC BUTTONS */
+      (function magnetic() {
+        if (!isFinePointer || prefersReduced) return;
+        document.querySelectorAll('.btn-primary, .btn-ghost, .nav-logo').forEach(el => {
+          el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+            const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+            el.style.transform = `translate(${x * 10}px, ${y * 8}px)`;
+          });
+          el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+        });
+      })();
+
+      /* 6. LIQUID GLITCH ON WORK CARDS + HERO BG TEXT */
+      (function liquidGlitch() {
+        if (prefersReduced) return;
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes wow-liquid-hit {
+            0%, 100% { filter: none; }
+            50% { filter: url(#wow-liquid); }
+          }
+          .wow-liquid-hover:hover .c4-stage,
+          .wow-liquid-hover:hover img {
+            animation: wow-liquid-hit 1.2s var(--ease-sine) infinite;
+          }
+          .hero-bg-text {
+            filter: none;
+            transition: filter 0.4s var(--ease-sine);
+          }
+          .hero-bg-text.wow-glitching {
+            filter: url(#wow-liquid);
+          }
+        `;
+        document.head.appendChild(style);
+        document.querySelectorAll('.c4-card').forEach(card => card.classList.add('wow-liquid-hover'));
+        const bgText = document.querySelector('.hero-bg-text');
+        if (bgText) {
+          let glitchTimer;
+          const scheduleGlitch = () => {
+            glitchTimer = setTimeout(() => {
+              bgText.classList.add('wow-glitching');
+              setTimeout(() => bgText.classList.remove('wow-glitching'), 500);
+              scheduleGlitch();
+            }, 2600 + Math.random() * 3200);
+          };
+          scheduleGlitch();
+        }
+      })();
+
+      /* 7. SCRAMBLE TEXT ON SECTION TITLES (re-triggers on every re-entry) */
+      (function scrambleText() {
+        if (prefersReduced) return;
+        const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/[]{}=+*#$%';
+        document.querySelectorAll('.section-title').forEach(el => {
+          const original = el.textContent;
+          let animating = false;
+          let inView = false;
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting && !inView && !animating) {
+                inView = true;
+                animating = true;
+                // LOCK LAYOUT: random scramble chars have different widths and
+                // can temporarily re-wrap the title to more lines — that shifts
+                // the grid (align-items: center), wobbles the about-visual box
+                // under the cursor and makes the whole page jitter (Lenis included).
+                // Freezing height + hiding overflow makes the shift impossible.
+                const lockedHeight = el.offsetHeight;
+                el.style.height = lockedHeight + 'px';
+                el.style.overflow = 'hidden';
+                let frame = 0;
+                const total = Math.max(14, original.length + 8);
+                const anim = setInterval(() => {
+                  frame++;
+                  const reveal = Math.floor((frame / total) * original.length);
+                  el.textContent = original.split('').map((ch, i) => {
+                    if (ch === ' ' || i < reveal) return ch;
+                    return CHARS[Math.floor(Math.random() * CHARS.length)];
+                  }).join('');
+                  if (frame >= total) {
+                    clearInterval(anim);
+                    el.textContent = original;
+                    el.style.height = '';
+                    el.style.overflow = '';
+                    animating = false;
+                  }
+                }, 28);
+              } else if (!entry.isIntersecting) {
+                inView = false;
+              }
+            });
+          }, { threshold: 0.4 });
+          io.observe(el);
+        });
+      })();
+
+      /* ============ WOW ROUND 2 ============ */
+
+      /* 8. PRICING SPOTLIGHT (mouse-tracked radial glow) */
+      (function pricingSpotlight() {
+        if (!isFinePointer) return;
+        document.querySelectorAll('.pricing-card').forEach(card => {
+          const spot = card.querySelector('.wow-spotlight');
+          if (!spot) return;
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            spot.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+            spot.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+          }, { passive: true });
+        });
+      })();
+
+      /* 9. STAT COUNTERS (count-up + fill bar) */
+      (function statCounters() {
+        const statNums = document.querySelectorAll('.stat-num');
+        if (!statNums.length) return;
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            io.unobserve(el);
+            const box = el.closest('.stat-box');
+            if (box) box.classList.add('wow-counted');
+            if (prefersReduced) return;
+            const span = el.querySelector('span');
+            const suffix = span ? span.textContent : '';
+            const target = parseInt(el.textContent, 10) || 0;
+            if (!isFinite(target) || target === 0) return;
+            const dur = 1400;
+            const t0 = performance.now();
+            (function tick(now) {
+              const p = Math.min(1, (now - t0) / dur);
+              const eased = 1 - Math.pow(1 - p, 4);
+              el.innerHTML = Math.round(target * eased) + (span ? '<span>' + suffix + '</span>' : '');
+              if (p < 1) requestAnimationFrame(tick);
+            })(t0);
+          });
+        }, { threshold: 0.5 });
+        statNums.forEach(el => io.observe(el));
+      })();
+
+      /* 10. NAV GLASS */
+      (function navGlass() {
+        const nav = document.querySelector('nav');
+        if (!nav) return;
+        nav.classList.add('wow-glass');
+      })();
+
+      /* 11. MARQUEE PAUSE ON HOVER */
+      (function marqueePause() {
+        const wrap = document.querySelector('.marquee-wrap');
+        if (wrap) wrap.classList.add('wow-marquee-pause');
+      })();
+    })();
+
     // 1. Lenis Smooth Scroll
     const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), touchMultiplier: 2 });
     function raf(time) {
@@ -3817,15 +4499,16 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    // 3. Hero Text Reveal Initialization
+    // 3. Hero Text Reveal — starts AFTER preloader completes (~3.4s) for premium feel
     window.addEventListener('DOMContentLoaded', () => {
+      const PRELOADER_WAIT = WOW_PREFERS_REDUCED ? 0 : 3450;
       setTimeout(() => {
         document.querySelectorAll('.reveal-text').forEach((el, index) => {
           setTimeout(() => {
             el.classList.add('visible');
           }, index * 200);
         });
-      }, 300);
+      }, PRELOADER_WAIT);
     });
 
     // 4. Dynamic Directional Mouse-Tracking 3D Tilt (Concept 4 Cards)
