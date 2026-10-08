@@ -1,0 +1,19 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Clean URL Routing for Pricing
+# Allows https://muaaztoor.site/pricing to load seamlessly
+RewriteRule ^pricing\.html$ /pricing [R=301,L]
+RewriteRule ^pricing/?$ pricing/index.html [L]
+
+# General clean URL rewrite (loads file without .html extension)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Security Headers & Caching
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
