@@ -18,9 +18,10 @@
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230a0a0a' rx='20'/><text x='58' y='72' font-family='sans-serif' font-weight='800' font-size='60' fill='%23f0ede8' text-anchor='middle'>M<tspan fill='%23d4ff47'>.</tspan></text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
-    rel="stylesheet">
+  <link rel="preload" href="fonts/syne-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/dmsans-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500;700&display=swap">
   <!-- Lenis CSS -->
   <style>
     html.lenis,
@@ -49,13 +50,16 @@
     html,
     body,
     * {
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE / Edge */
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE / Edge */
     }
 
     ::-webkit-scrollbar,
     *::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
+      display: none;
+      /* Chrome, Safari, Opera */
       width: 0;
       height: 0;
       background: transparent;
@@ -85,15 +89,24 @@
       --border-strong: rgba(255, 255, 255, 0.12);
 
       /* Spacing scale - 4pt base */
-      --space-xs: 0.25rem;   /* 4px */
-      --space-sm: 0.5rem;    /* 8px */
-      --space-md: 0.75rem;   /* 12px */
-      --space-lg: 1rem;      /* 16px */
-      --space-xl: 1.5rem;    /* 24px */
-      --space-2xl: 2rem;     /* 32px */
-      --space-3xl: 3rem;     /* 48px */
-      --space-4xl: 4rem;     /* 64px */
-      --space-5xl: 6rem;     /* 96px */
+      --space-xs: 0.25rem;
+      /* 4px */
+      --space-sm: 0.5rem;
+      /* 8px */
+      --space-md: 0.75rem;
+      /* 12px */
+      --space-lg: 1rem;
+      /* 16px */
+      --space-xl: 1.5rem;
+      /* 24px */
+      --space-2xl: 2rem;
+      /* 32px */
+      --space-3xl: 3rem;
+      /* 48px */
+      --space-4xl: 4rem;
+      /* 64px */
+      --space-5xl: 6rem;
+      /* 96px */
 
       /* Typography scale */
       --text-xs: 0.75rem;
@@ -128,8 +141,33 @@
       --radius-full: 9999px;
 
       /* Fonts */
-      --font-head: 'Syne', sans-serif;
+      --font-head: 'Syne', 'Syne-Fallback', sans-serif;
       --font-body: 'DM Sans', sans-serif;
+    }
+
+    @font-face {
+      font-family: 'Syne';
+      font-style: normal;
+      font-weight: 700 800;
+      font-display: block;
+      src: url('fonts/syne-800.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'DM Sans';
+      font-style: normal;
+      font-weight: 400 500;
+      font-display: swap;
+      src: url('fonts/dmsans-400.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Syne-Fallback';
+      src: local('Arial'), local('Helvetica');
+      ascent-override: 95%;
+      descent-override: 25%;
+      line-gap-override: 0%;
+      size-adjust: 105%;
     }
 
     html {
@@ -376,12 +414,18 @@
       transform: translate(-50%, -50%);
       font-family: var(--font-head);
       font-size: clamp(120px, 18vw, 220px);
+      line-height: 1;
+      height: clamp(120px, 18vw, 220px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: 800;
       color: rgba(255, 255, 255, 0.02);
       white-space: nowrap;
       pointer-events: none;
       letter-spacing: -0.04em;
       user-select: none;
+      contain: layout size;
       transition: transform 0.1s var(--ease-sine);
     }
 
@@ -769,8 +813,17 @@
     }
 
     @keyframes c4Pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(0.85);
+      }
     }
 
     .c4-metric-pill {
@@ -836,9 +889,17 @@
       border-radius: 50%;
     }
 
-    .c1-dot.red { background: #ff5f56; }
-    .c1-dot.yellow { background: #ffbd2e; }
-    .c1-dot.green { background: #27c93f; }
+    .c1-dot.red {
+      background: #ff5f56;
+    }
+
+    .c1-dot.yellow {
+      background: #ffbd2e;
+    }
+
+    .c1-dot.green {
+      background: #27c93f;
+    }
 
     .c4-url-pill {
       background: #181818;
@@ -1108,8 +1169,16 @@
     }
 
     @keyframes mobilePanScroll {
-      0%, 20% { transform: translateY(0); }
-      80%, 100% { transform: translateY(calc(-100% + 155px)); }
+
+      0%,
+      20% {
+        transform: translateY(0);
+      }
+
+      80%,
+      100% {
+        transform: translateY(calc(-100% + 155px));
+      }
     }
 
     @media (min-width: 901px) {
@@ -1206,8 +1275,17 @@
       }
 
       @keyframes badge-pulse {
-        0%, 100% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.4); opacity: 0.6; }
+
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+
+        50% {
+          transform: scale(1.4);
+          opacity: 0.6;
+        }
       }
 
       .work-title-text {
@@ -1231,8 +1309,15 @@
       }
 
       @keyframes swipe-hint-arrow {
-        0%, 100% { transform: translateX(0); }
-        50% { transform: translateX(5px); }
+
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+
+        50% {
+          transform: translateX(5px);
+        }
       }
 
       #work .works-grid.c4-grid {
@@ -1708,16 +1793,19 @@
     }
 
     @keyframes titleCursorBlink {
-      0%, 100% {
+
+      0%,
+      100% {
         opacity: 1;
       }
+
       50% {
         opacity: 0;
       }
     }
 
     .contact-title .contact-title-accent,
-    .contact-title > span:last-of-type {
+    .contact-title>span:last-of-type {
       color: var(--accent);
       text-shadow: 0 0 40px var(--accent-dim);
     }
@@ -1840,6 +1928,7 @@
 
     /* Skip animation for reduced motion */
     @media (prefers-reduced-motion: reduce) {
+
       .fade-up,
       .reveal-text,
       .work-card,
@@ -1932,10 +2021,13 @@
     }
 
     @keyframes di-pulse {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: scale(1);
         opacity: 1;
       }
+
       50% {
         transform: scale(1.35);
         opacity: 0.65;
@@ -2208,10 +2300,12 @@
     }
 
     @media (max-width: 900px) {
+
       .dynamic-island,
       .sound-toggle {
         bottom: calc(1.35rem + env(safe-area-inset-bottom, 0px));
       }
+
       .sound-toggle {
         right: 1.25rem;
       }
@@ -3013,13 +3107,16 @@
       .testimonial-card {
         padding: 1.75rem 1.25rem;
       }
+
       .testimonial-quote {
         font-size: var(--text-sm);
       }
+
       .contact-starters {
         flex-direction: column;
         align-items: stretch;
       }
+
       .starter-pill {
         justify-content: center;
         text-align: center;
@@ -3042,13 +3139,14 @@
       justify-content: center;
       gap: var(--space-lg);
       z-index: 100000;
-      transition: opacity 0.7s var(--ease-out-expo), visibility 0.7s, transform 0.7s var(--ease-out-expo);
+      transition: opacity 0.4s var(--ease-out-expo), visibility 0.4s, transform 0.4s var(--ease-out-expo);
     }
 
     .preloader.done {
       opacity: 0;
       visibility: hidden;
-      transform: scale(1.035);
+      transform: scale(1.02);
+      pointer-events: none;
     }
 
     .preloader-logo {
@@ -3163,6 +3261,7 @@
     }
 
     @media (pointer: fine) {
+
       html.wow-cursor,
       html.wow-cursor * {
         cursor: none !important;
@@ -3170,6 +3269,7 @@
     }
 
     @media (pointer: coarse) {
+
       .cursor-dot,
       .cursor-ring {
         display: none;
@@ -3221,12 +3321,29 @@
     }
 
     @keyframes grain-shift {
-      0% { transform: translate(0, 0); }
-      20% { transform: translate(-4%, 3%); }
-      40% { transform: translate(3%, -5%); }
-      60% { transform: translate(-3%, 4%); }
-      80% { transform: translate(4%, -3%); }
-      100% { transform: translate(0, 0); }
+      0% {
+        transform: translate(0, 0);
+      }
+
+      20% {
+        transform: translate(-4%, 3%);
+      }
+
+      40% {
+        transform: translate(3%, -5%);
+      }
+
+      60% {
+        transform: translate(-3%, 4%);
+      }
+
+      80% {
+        transform: translate(4%, -3%);
+      }
+
+      100% {
+        transform: translate(0, 0);
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -3240,9 +3357,9 @@
       inset: 0;
       pointer-events: none;
       background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%),
-        rgba(212, 255, 71, 0.09) 0%,
-        rgba(212, 255, 71, 0.035) 35%,
-        transparent 70%);
+          rgba(212, 255, 71, 0.09) 0%,
+          rgba(212, 255, 71, 0.035) 35%,
+          transparent 70%);
       opacity: 0;
       transition: opacity 0.35s var(--ease-sine);
       z-index: 1;
@@ -3254,8 +3371,8 @@
 
     .hero-title .line2 {
       background: linear-gradient(110deg,
-        var(--text) 0%, var(--text) 38%,
-        var(--accent) 50%, var(--text) 62%, var(--text) 100%);
+          var(--text) 0%, var(--text) 38%,
+          var(--accent) 50%, var(--text) 62%, var(--text) 100%);
       background-size: 250% 100%;
       -webkit-background-clip: text;
       background-clip: text;
@@ -3264,8 +3381,13 @@
     }
 
     @keyframes wow-shimmer {
-      0% { background-position: 120% 0; }
-      100% { background-position: -120% 0; }
+      0% {
+        background-position: 120% 0;
+      }
+
+      100% {
+        background-position: -120% 0;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -3322,10 +3444,23 @@
     }
 
     @keyframes wow-logo-spin {
-      0%, 15% { transform: rotate(0deg) scale(1); }
-      25% { transform: rotate(180deg) scale(1.25); }
-      35% { transform: rotate(360deg) scale(1); }
-      100% { transform: rotate(360deg) scale(1); }
+
+      0%,
+      15% {
+        transform: rotate(0deg) scale(1);
+      }
+
+      25% {
+        transform: rotate(180deg) scale(1.25);
+      }
+
+      35% {
+        transform: rotate(360deg) scale(1);
+      }
+
+      100% {
+        transform: rotate(360deg) scale(1);
+      }
     }
 
     /* ============================================
@@ -3383,14 +3518,34 @@
       transition: all 0.3s ease;
     }
 
-    .sound-toggle .spotify-bars span:nth-child(1) { height: 8px; animation-delay: 0.1s; }
-    .sound-toggle .spotify-bars span:nth-child(2) { height: 20px; animation-delay: 0.3s; }
-    .sound-toggle .spotify-bars span:nth-child(3) { height: 14px; animation-delay: 0.15s; }
-    .sound-toggle .spotify-bars span:nth-child(4) { height: 18px; animation-delay: 0.4s; }
+    .sound-toggle .spotify-bars span:nth-child(1) {
+      height: 8px;
+      animation-delay: 0.1s;
+    }
+
+    .sound-toggle .spotify-bars span:nth-child(2) {
+      height: 20px;
+      animation-delay: 0.3s;
+    }
+
+    .sound-toggle .spotify-bars span:nth-child(3) {
+      height: 14px;
+      animation-delay: 0.15s;
+    }
+
+    .sound-toggle .spotify-bars span:nth-child(4) {
+      height: 18px;
+      animation-delay: 0.4s;
+    }
 
     @keyframes spotify-jump {
-      0% { height: 6px; }
-      100% { height: 20px; }
+      0% {
+        height: 6px;
+      }
+
+      100% {
+        height: 20px;
+      }
     }
 
     /* Floating Tooltip */
@@ -3474,7 +3629,9 @@
   <!-- WOW: PRELOADER -->
   <div class="preloader" id="wow-preloader">
     <div class="preloader-logo">M<span>.</span></div>
-    <div class="preloader-bar"><div class="preloader-bar-fill" id="wow-preloader-fill"></div></div>
+    <div class="preloader-bar">
+      <div class="preloader-bar-fill" id="wow-preloader-fill"></div>
+    </div>
     <div class="preloader-count" id="wow-preloader-count">0%</div>
   </div>
 
@@ -3582,479 +3739,514 @@
 
       <div class="works-grid c4-grid" id="works-cards-deck">
 
-      <!-- Card 1: Asteroid Nerds (Space Science Publication & Tracker) -->
-      <a href="https://astro-nerd-akt.pages.dev/" target="_blank" class="c4-card astro fade-up">
-        <div class="c4-glow" style="background: radial-gradient(circle, rgba(167, 139, 250, 0.25) 0%, transparent 70%);"></div>
+        <!-- Card 1: Asteroid Nerds (Space Science Publication & Tracker) -->
+        <a href="https://astro-nerd-akt.pages.dev/" target="_blank" class="c4-card astro fade-up">
+          <div class="c4-glow"
+            style="background: radial-gradient(circle, rgba(167, 139, 250, 0.25) 0%, transparent 70%);"></div>
 
-        <div>
-          <div class="c4-header-row">
-            <div class="c4-beacon">
-              <span class="c4-beacon-dot" style="background:#a78bfa; box-shadow:0 0 10px #a78bfa;"></span>
-              <span>Active Web App</span>
-            </div>
-            <span class="c4-metric-pill" style="color:#a78bfa; background:rgba(167,139,250,0.12); border-color:rgba(167,139,250,0.3);">
-              ⚡ &lt;0.5s Edge CDN
-            </span>
-          </div>
-
-          <!-- 3D Browser Stage with Floating Telemetry Chips -->
-          <div class="c4-stage">
-            <div class="c4-browser">
-              <div class="c4-browser-bar">
-                <div class="c1-dots">
-                  <span class="c1-dot red"></span>
-                  <span class="c1-dot yellow"></span>
-                  <span class="c1-dot green"></span>
-                </div>
-                <div class="c4-url-pill">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                  astro-nerd-akt.pages.dev
-                </div>
+          <div>
+            <div class="c4-header-row">
+              <div class="c4-beacon">
+                <span class="c4-beacon-dot" style="background:#a78bfa; box-shadow:0 0 10px #a78bfa;"></span>
+                <span>Active Web App</span>
               </div>
+              <span class="c4-metric-pill"
+                style="color:#a78bfa; background:rgba(167,139,250,0.12); border-color:rgba(167,139,250,0.3);">
+                ⚡ &lt;0.5s Edge CDN
+              </span>
+            </div>
 
-              <div class="c4-viewport">
-                <div class="c4-canvas">
-                  <div class="c1-ui-hero astro">
-                    <div class="c1-ui-brand" style="letter-spacing:0.06em;">ASTEROID <span style="color:var(--accent);">NERDS</span></div>
-                    <div class="c1-ui-tag" style="color:rgba(212,255,71,0.85);">Field Notes From The Near-Earth Belt</div>
-                    <div class="c1-ui-btn" style="background:var(--accent); color:#000;">Explore Dispatch ↓</div>
+            <!-- 3D Browser Stage with Floating Telemetry Chips -->
+            <div class="c4-stage">
+              <div class="c4-browser">
+                <div class="c4-browser-bar">
+                  <div class="c1-dots">
+                    <span class="c1-dot red"></span>
+                    <span class="c1-dot yellow"></span>
+                    <span class="c1-dot green"></span>
                   </div>
-                  <div class="c1-ui-content" style="background:#080a14;">
-                    <div class="c1-ui-row">
-                      <div class="c1-ui-card-mini" style="border-color:rgba(139,92,246,0.25); color:#a78bfa;">🛰️ NEO Radar Tracker</div>
-                      <div class="c1-ui-card-mini" style="border-color:rgba(139,92,246,0.25); color:#a78bfa;">☄️ Close Approaches</div>
-                    </div>
-                    <div class="c1-ui-row">
-                      <div class="c1-ui-card-mini">🚀 NASA Missions</div>
-                      <div class="c1-ui-card-mini">🪐 Asteroid Orbit Data</div>
-                    </div>
+                  <div class="c4-url-pill">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    astro-nerd-akt.pages.dev
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <!-- Floating 3D Chips in Z-space -->
-            <div class="c4-chip-top" style="border-color:rgba(167,139,250,0.35); color:#a78bfa;">
-              <span>🚀 Space Science Journal</span>
-            </div>
-            <div class="c4-chip-bottom" style="border-color:rgba(167,139,250,0.3);">
-              <span style="font-size:1.2rem;">☄️</span>
-              <div>
-                <div class="c4-chip-title">Orbital Trajectory</div>
-                <div class="c4-chip-sub" style="color:#a78bfa;">Velocity: 28.4 km/s</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card Content -->
-          <div class="c4-body">
-            <div class="c4-tags">
-              <span class="c4-tag live" style="border-color:#a78bfa; color:#a78bfa;">✦ Live Web App</span>
-              <span class="c4-tag">Space Science</span>
-              <span class="c4-tag">React / Vite</span>
-            </div>
-            <h3 class="c4-title">
-              Asteroid Nerds — Space Publication
-              <span class="c4-arrow-icon" style="color:#a78bfa;">↗</span>
-            </h3>
-            <p class="c4-desc">
-              Field notes from the near-earth belt. Tracking celestial physics, orbital encounters, and deep solar system missions with a high-end editorial tech aesthetic.
-            </p>
-          </div>
-        </div>
-
-        <!-- Bento Specs Footer -->
-        <div class="c4-specs">
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Architecture</span>
-            <span class="c4-spec-val">Vite + React</span>
-          </div>
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Network</span>
-            <span class="c4-spec-val">Cloudflare Edge</span>
-          </div>
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Performance</span>
-            <span class="c4-spec-val" style="color:var(--accent);">100 Edge Score</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card 2: Lumière Salon & Spa (Luxury Beauty & Wellness) -->
-      <a href="https://slon-458416.netlify.app" target="_blank" class="c4-card salon fade-up">
-        <div class="c4-glow" style="background: radial-gradient(circle, rgba(244, 114, 182, 0.22) 0%, transparent 70%);"></div>
-
-        <div>
-          <div class="c4-header-row">
-            <div class="c4-beacon">
-              <span class="c4-beacon-dot" style="background:#f472b6; box-shadow:0 0 10px #f472b6;"></span>
-              <span>Verified Client Site</span>
-            </div>
-            <span class="c4-metric-pill" style="color:#f472b6; background:rgba(244,114,182,0.12); border-color:rgba(244,114,182,0.3);">
-              ✦ +65% Bridal Bookings
-            </span>
-          </div>
-
-          <!-- 3D Browser Stage with Floating Telemetry Chips -->
-          <div class="c4-stage">
-            <div class="c4-browser">
-              <div class="c4-browser-bar">
-                <div class="c1-dots">
-                  <span class="c1-dot red"></span>
-                  <span class="c1-dot yellow"></span>
-                  <span class="c1-dot green"></span>
-                </div>
-                <div class="c4-url-pill">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                  slon-458416.netlify.app
-                </div>
-              </div>
-
-              <div class="c4-viewport">
-                <div class="c4-canvas">
-                  <div class="c1-ui-hero salon">
-                    <div class="c1-ui-brand">LUMIÈRE <span style="color:#f472b6;">SALON &amp; SPA</span></div>
-                    <div class="c1-ui-tag" style="color:#e5c4d8;">Where Beauty Meets Luxury · Lahore</div>
-                    <div class="c1-ui-btn" style="background:#f472b6; color:#000;">Reserve Session →</div>
-                  </div>
-                  <div class="c1-ui-content" style="background:#0e090d;">
-                    <div class="c1-ui-row">
-                      <div class="c1-ui-card-mini" style="border-color:rgba(244,114,182,0.25); color:#f472b6;">✦ Signature Balayage</div>
-                      <div class="c1-ui-card-mini" style="border-color:rgba(244,114,182,0.25); color:#f472b6;">✦ HydraFacial Glow</div>
+                <div class="c4-viewport">
+                  <div class="c4-canvas">
+                    <div class="c1-ui-hero astro">
+                      <div class="c1-ui-brand" style="letter-spacing:0.06em;">ASTEROID <span
+                          style="color:var(--accent);">NERDS</span></div>
+                      <div class="c1-ui-tag" style="color:rgba(212,255,71,0.85);">Field Notes From The Near-Earth Belt
+                      </div>
+                      <div class="c1-ui-btn" style="background:var(--accent); color:#000;">Explore Dispatch ↓</div>
                     </div>
-                    <div class="c1-ui-card-mini" style="text-align: center; color: #f472b6;">
-                      💍 Lahore's Premier Bridal Destination
+                    <div class="c1-ui-content" style="background:#080a14;">
+                      <div class="c1-ui-row">
+                        <div class="c1-ui-card-mini" style="border-color:rgba(139,92,246,0.25); color:#a78bfa;">🛰️ NEO
+                          Radar Tracker</div>
+                        <div class="c1-ui-card-mini" style="border-color:rgba(139,92,246,0.25); color:#a78bfa;">☄️ Close
+                          Approaches</div>
+                      </div>
+                      <div class="c1-ui-row">
+                        <div class="c1-ui-card-mini">🚀 NASA Missions</div>
+                        <div class="c1-ui-card-mini">🪐 Asteroid Orbit Data</div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Floating 3D Chips in Z-space -->
-            <div class="c4-chip-top" style="border-color:rgba(244,114,182,0.35); color:#f472b6;">
-              <span>💇‍♀️ Luxury Salon &amp; Spa</span>
-            </div>
-            <div class="c4-chip-bottom" style="border-color:rgba(244,114,182,0.3);">
-              <span style="font-size:1.2rem;">📅</span>
-              <div>
-                <div class="c4-chip-title">VIP Appointment Flow</div>
-                <div class="c4-chip-sub" style="color:#f472b6;">Instant WhatsApp Booking</div>
+              <!-- Floating 3D Chips in Z-space -->
+              <div class="c4-chip-top" style="border-color:rgba(167,139,250,0.35); color:#a78bfa;">
+                <span>🚀 Space Science Journal</span>
               </div>
-            </div>
-          </div>
-
-          <!-- Card Content -->
-          <div class="c4-body">
-            <div class="c4-tags">
-              <span class="c4-tag live" style="border-color:#f472b6; color:#f472b6;">✦ Live Client Site</span>
-              <span class="c4-tag">Salon &amp; Spa</span>
-              <span class="c4-tag">Luxury Lookbook</span>
-            </div>
-            <h3 class="c4-title">
-              Lumière Salon &amp; Spa
-              <span class="c4-arrow-icon" style="color:#f472b6;">↗</span>
-            </h3>
-            <p class="c4-desc">
-              Bespoke digital brand experience engineered for Lahore's premier salon, featuring signature bridal lookbooks, treatment pricing catalogs, and direct WhatsApp reservations.
-            </p>
-          </div>
-        </div>
-
-        <!-- Bento Specs Footer -->
-        <div class="c4-specs">
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Sector</span>
-            <span class="c4-spec-val">Luxury Beauty &amp; Spa</span>
-          </div>
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Impact</span>
-            <span class="c4-spec-val">+65% Bridal Inquiries</span>
-          </div>
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Load Speed</span>
-            <span class="c4-spec-val" style="color:#f472b6;">&lt;0.9s Mobile FCP</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card 3: Urban Bites (Restaurant Flagship) -->
-      <a href="https://urban-bites-5545.netlify.app" target="_blank" class="c4-card fade-up">
-        <div class="c4-glow" style="background: radial-gradient(circle, rgba(212, 255, 71, 0.16) 0%, transparent 70%);"></div>
-
-        <div>
-          <div class="c4-header-row">
-            <div class="c4-beacon">
-              <span class="c4-beacon-dot"></span>
-              <span>Live On Production</span>
-            </div>
-            <span class="c4-metric-pill">
-              ✦ +40% Online Orders
-            </span>
-          </div>
-
-          <div class="c4-stage">
-            <div class="c4-browser">
-              <div class="c4-browser-bar">
-                <div class="c1-dots">
-                  <span class="c1-dot red"></span>
-                  <span class="c1-dot yellow"></span>
-                  <span class="c1-dot green"></span>
-                </div>
-                <div class="c4-url-pill">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                  urban-bites-5545.netlify.app
+              <div class="c4-chip-bottom" style="border-color:rgba(167,139,250,0.3);">
+                <span style="font-size:1.2rem;">☄️</span>
+                <div>
+                  <div class="c4-chip-title">Orbital Trajectory</div>
+                  <div class="c4-chip-sub" style="color:#a78bfa;">Velocity: 28.4 km/s</div>
                 </div>
               </div>
+            </div>
 
-              <div class="c4-viewport">
-                <div class="c4-canvas">
-                  <div class="c1-ui-hero">
-                    <div class="c1-ui-brand">URBAN BITES</div>
-                    <div class="c1-ui-tag">Crispy Craft Burgers &amp; Wings</div>
-                    <div class="c1-ui-btn">Explore Menu ↓</div>
+            <!-- Card Content -->
+            <div class="c4-body">
+              <div class="c4-tags">
+                <span class="c4-tag live" style="border-color:#a78bfa; color:#a78bfa;">✦ Live Web App</span>
+                <span class="c4-tag">Space Science</span>
+                <span class="c4-tag">React / Vite</span>
+              </div>
+              <h3 class="c4-title">
+                Asteroid Nerds — Space Publication
+                <span class="c4-arrow-icon" style="color:#a78bfa;">↗</span>
+              </h3>
+              <p class="c4-desc">
+                Field notes from the near-earth belt. Tracking celestial physics, orbital encounters, and deep solar
+                system missions with a high-end editorial tech aesthetic.
+              </p>
+            </div>
+          </div>
+
+          <!-- Bento Specs Footer -->
+          <div class="c4-specs">
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Architecture</span>
+              <span class="c4-spec-val">Vite + React</span>
+            </div>
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Network</span>
+              <span class="c4-spec-val">Cloudflare Edge</span>
+            </div>
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Performance</span>
+              <span class="c4-spec-val" style="color:var(--accent);">100 Edge Score</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2: Lumière Salon & Spa (Luxury Beauty & Wellness) -->
+        <a href="https://slon-458416.netlify.app" target="_blank" class="c4-card salon fade-up">
+          <div class="c4-glow"
+            style="background: radial-gradient(circle, rgba(244, 114, 182, 0.22) 0%, transparent 70%);"></div>
+
+          <div>
+            <div class="c4-header-row">
+              <div class="c4-beacon">
+                <span class="c4-beacon-dot" style="background:#f472b6; box-shadow:0 0 10px #f472b6;"></span>
+                <span>Verified Client Site</span>
+              </div>
+              <span class="c4-metric-pill"
+                style="color:#f472b6; background:rgba(244,114,182,0.12); border-color:rgba(244,114,182,0.3);">
+                ✦ +65% Bridal Bookings
+              </span>
+            </div>
+
+            <!-- 3D Browser Stage with Floating Telemetry Chips -->
+            <div class="c4-stage">
+              <div class="c4-browser">
+                <div class="c4-browser-bar">
+                  <div class="c1-dots">
+                    <span class="c1-dot red"></span>
+                    <span class="c1-dot yellow"></span>
+                    <span class="c1-dot green"></span>
                   </div>
-                  <div class="c1-ui-content">
-                    <div class="c1-ui-row">
-                      <div class="c1-ui-card-mini">🍔 Smash Burger • $12.99</div>
-                      <div class="c1-ui-card-mini">🍗 Hot Wings • $9.50</div>
-                    </div>
-                    <div class="c1-ui-card-mini" style="text-align: center; color: var(--accent);">
-                      ★ 4.9 Rating • 2,400+ Local Reviews
-                    </div>
+                  <div class="c4-url-pill">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    slon-458416.netlify.app
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="c4-chip-top">
-              <span>🍔 Restaurant Flagship</span>
-            </div>
-            <div class="c4-chip-bottom">
-              <span style="font-size:1.2rem;">⚡</span>
-              <div>
-                <div class="c4-chip-title">WhatsApp Order Flow</div>
-                <div class="c4-chip-sub" style="color:var(--accent);">Instant Direct Checkout</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="c4-body">
-            <div class="c4-tags">
-              <span class="c4-tag live">✦ Live Demo</span>
-              <span class="c4-tag">Restaurant</span>
-              <span class="c4-tag">High-Conversion</span>
-            </div>
-            <h3 class="c4-title">
-              Urban Bites — Restaurant Platform
-              <span class="c4-arrow-icon">↗</span>
-            </h3>
-            <p class="c4-desc">
-              Full multi-page restaurant platform engineered with custom interactive menus, direct WhatsApp ordering, and mobile speed optimization.
-            </p>
-          </div>
-        </div>
-
-        <div class="c4-specs">
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Delivery</span>
-            <span class="c4-spec-val">5 Days Turnaround</span>
-          </div>
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Impact</span>
-            <span class="c4-spec-val">+40% Direct Sales</span>
-          </div>
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Rating</span>
-            <span class="c4-spec-val" style="color:var(--accent);">99 Lighthouse Score</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card 4: Smile+ Dental Clinic (Healthcare Portal) -->
-      <a href="https://dentis-sherahmad.netlify.app" target="_blank" class="c4-card dental fade-up">
-        <div class="c4-glow" style="background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);"></div>
-
-        <div>
-          <div class="c4-header-row">
-            <div class="c4-beacon">
-              <span class="c4-beacon-dot" style="background:#38bdf8; box-shadow:0 0 10px #38bdf8;"></span>
-              <span>Verified Client Site</span>
-            </div>
-            <span class="c4-metric-pill" style="color:#38bdf8; background:rgba(56,189,248,0.12); border-color:rgba(56,189,248,0.3);">
-              ✦ 3.2x Booking Rate
-            </span>
-          </div>
-
-          <div class="c4-stage">
-            <div class="c4-browser">
-              <div class="c4-browser-bar">
-                <div class="c1-dots">
-                  <span class="c1-dot red"></span>
-                  <span class="c1-dot yellow"></span>
-                  <span class="c1-dot green"></span>
-                </div>
-                <div class="c4-url-pill">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                  dentis-sherahmad.netlify.app
-                </div>
-              </div>
-
-              <div class="c4-viewport">
-                <div class="c4-canvas">
-                  <div class="c1-ui-hero dental">
-                    <div class="c1-ui-brand">SMILE<span>+</span> CLINIC</div>
-                    <div class="c1-ui-tag">Advanced Aesthetic Dentistry</div>
-                    <div class="c1-ui-btn" style="background:#38bdf8; color:#000;">Book Consultation →</div>
-                  </div>
-                  <div class="c1-ui-content">
-                    <div class="c1-ui-row">
-                      <div class="c1-ui-card-mini">✦ Teeth Whitening</div>
-                      <div class="c1-ui-card-mini">✦ Invisible Braces</div>
+                <div class="c4-viewport">
+                  <div class="c4-canvas">
+                    <div class="c1-ui-hero salon">
+                      <div class="c1-ui-brand">LUMIÈRE <span style="color:#f472b6;">SALON &amp; SPA</span></div>
+                      <div class="c1-ui-tag" style="color:#e5c4d8;">Where Beauty Meets Luxury · Lahore</div>
+                      <div class="c1-ui-btn" style="background:#f472b6; color:#000;">Reserve Session →</div>
                     </div>
-                    <div class="c1-ui-card-mini" style="text-align: center; color: #38bdf8;">
-                      📅 3.2x Patient Booking Growth
+                    <div class="c1-ui-content" style="background:#0e090d;">
+                      <div class="c1-ui-row">
+                        <div class="c1-ui-card-mini" style="border-color:rgba(244,114,182,0.25); color:#f472b6;">✦
+                          Signature Balayage</div>
+                        <div class="c1-ui-card-mini" style="border-color:rgba(244,114,182,0.25); color:#f472b6;">✦
+                          HydraFacial Glow</div>
+                      </div>
+                      <div class="c1-ui-card-mini" style="text-align: center; color: #f472b6;">
+                        💍 Lahore's Premier Bridal Destination
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="c4-chip-top" style="border-color:rgba(56,189,248,0.35); color:#38bdf8;">
-              <span>🏥 Healthcare Portal</span>
-            </div>
-            <div class="c4-chip-bottom" style="border-color:rgba(56,189,248,0.3);">
-              <span style="font-size:1.2rem;">📅</span>
-              <div>
-                <div class="c4-chip-title">Online Scheduling</div>
-                <div class="c4-chip-sub" style="color:#38bdf8;">Instant Confirmation</div>
+              <!-- Floating 3D Chips in Z-space -->
+              <div class="c4-chip-top" style="border-color:rgba(244,114,182,0.35); color:#f472b6;">
+                <span>💇‍♀️ Luxury Salon &amp; Spa</span>
               </div>
-            </div>
-          </div>
-
-          <div class="c4-body">
-            <div class="c4-tags">
-              <span class="c4-tag live">✦ Live Demo</span>
-              <span class="c4-tag">Healthcare</span>
-              <span class="c4-tag">Patient UX</span>
-            </div>
-            <h3 class="c4-title">
-              Smile+ Dental Institute
-              <span class="c4-arrow-icon">↗</span>
-            </h3>
-            <p class="c4-desc">
-              High-converting medical patient acquisition portal built for effortless treatment review and automated 30-second inquiry submissions.
-            </p>
-          </div>
-        </div>
-
-        <div class="c4-specs">
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Specialty</span>
-            <span class="c4-spec-val">Medical Clinic UX</span>
-          </div>
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Conversion</span>
-            <span class="c4-spec-val">3.2x Consultation Surge</span>
-          </div>
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Load Time</span>
-            <span class="c4-spec-val" style="color:#38bdf8;">&lt;0.8s First Contentful</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card 5: CrispyPOS (Cloud POS & Order Terminal) -->
-      <a href="https://crispy-pos.netlify.app" target="_blank" class="c4-card pos fade-up">
-        <div class="c4-glow" style="background: radial-gradient(circle, rgba(96, 165, 250, 0.22) 0%, transparent 70%);"></div>
-
-        <div>
-          <div class="c4-header-row">
-            <div class="c4-beacon">
-              <span class="c4-beacon-dot" style="background:#60a5fa; box-shadow:0 0 10px #60a5fa;"></span>
-              <span>Live POS Platform</span>
-            </div>
-            <span class="c4-metric-pill" style="color:#60a5fa; background:rgba(96,165,250,0.12); border-color:rgba(96,165,250,0.3);">
-              ⚡ Real-Time Kitchen Sync
-            </span>
-          </div>
-
-          <div class="c4-stage">
-            <div class="c4-browser">
-              <div class="c4-browser-bar">
-                <div class="c1-dots">
-                  <span class="c1-dot red"></span>
-                  <span class="c1-dot yellow"></span>
-                  <span class="c1-dot green"></span>
-                </div>
-                <div class="c4-url-pill">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                  crispy-pos.netlify.app
+              <div class="c4-chip-bottom" style="border-color:rgba(244,114,182,0.3);">
+                <span style="font-size:1.2rem;">📅</span>
+                <div>
+                  <div class="c4-chip-title">VIP Appointment Flow</div>
+                  <div class="c4-chip-sub" style="color:#f472b6;">Instant WhatsApp Booking</div>
                 </div>
               </div>
+            </div>
 
-              <div class="c4-viewport">
-                <div class="c4-canvas">
-                  <div class="c1-ui-hero pos">
-                    <div class="c1-ui-brand" style="color:#60a5fa;">CRISPY<span style="color:#fff;">POS</span></div>
-                    <div class="c1-ui-tag">Cloud POS &amp; Order Routing System</div>
-                    <div class="c1-ui-btn" style="background:#60a5fa; color:#000;">Open Terminal ↓</div>
+            <!-- Card Content -->
+            <div class="c4-body">
+              <div class="c4-tags">
+                <span class="c4-tag live" style="border-color:#f472b6; color:#f472b6;">✦ Live Client Site</span>
+                <span class="c4-tag">Salon &amp; Spa</span>
+                <span class="c4-tag">Luxury Lookbook</span>
+              </div>
+              <h3 class="c4-title">
+                Lumière Salon &amp; Spa
+                <span class="c4-arrow-icon" style="color:#f472b6;">↗</span>
+              </h3>
+              <p class="c4-desc">
+                Bespoke digital brand experience engineered for Lahore's premier salon, featuring signature bridal
+                lookbooks, treatment pricing catalogs, and direct WhatsApp reservations.
+              </p>
+            </div>
+          </div>
+
+          <!-- Bento Specs Footer -->
+          <div class="c4-specs">
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Sector</span>
+              <span class="c4-spec-val">Luxury Beauty &amp; Spa</span>
+            </div>
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Impact</span>
+              <span class="c4-spec-val">+65% Bridal Inquiries</span>
+            </div>
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Load Speed</span>
+              <span class="c4-spec-val" style="color:#f472b6;">&lt;0.9s Mobile FCP</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3: Urban Bites (Restaurant Flagship) -->
+        <a href="https://urban-bites-5545.netlify.app" target="_blank" class="c4-card fade-up">
+          <div class="c4-glow"
+            style="background: radial-gradient(circle, rgba(212, 255, 71, 0.16) 0%, transparent 70%);"></div>
+
+          <div>
+            <div class="c4-header-row">
+              <div class="c4-beacon">
+                <span class="c4-beacon-dot"></span>
+                <span>Live On Production</span>
+              </div>
+              <span class="c4-metric-pill">
+                ✦ +40% Online Orders
+              </span>
+            </div>
+
+            <div class="c4-stage">
+              <div class="c4-browser">
+                <div class="c4-browser-bar">
+                  <div class="c1-dots">
+                    <span class="c1-dot red"></span>
+                    <span class="c1-dot yellow"></span>
+                    <span class="c1-dot green"></span>
                   </div>
-                  <div class="c1-ui-content">
-                    <div class="c1-ui-row">
-                      <div class="c1-ui-card-mini">Daily Rev: <strong style="color:#fff;">$3,420</strong></div>
-                      <div class="c1-ui-card-mini">Tables: <strong style="color:#60a5fa;">18 / 20</strong></div>
-                    </div>
-                    <div class="c1-ui-card-mini" style="text-align: center; color: #60a5fa;">
-                      ⚡ Zero-Latency Kitchen Display Sync
-                    </div>
+                  <div class="c4-url-pill">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    urban-bites-5545.netlify.app
                   </div>
                 </div>
+
+                <div class="c4-viewport">
+                  <div class="c4-canvas">
+                    <div class="c1-ui-hero">
+                      <div class="c1-ui-brand">URBAN BITES</div>
+                      <div class="c1-ui-tag">Crispy Craft Burgers &amp; Wings</div>
+                      <div class="c1-ui-btn">Explore Menu ↓</div>
+                    </div>
+                    <div class="c1-ui-content">
+                      <div class="c1-ui-row">
+                        <div class="c1-ui-card-mini">🍔 Smash Burger • $12.99</div>
+                        <div class="c1-ui-card-mini">🍗 Hot Wings • $9.50</div>
+                      </div>
+                      <div class="c1-ui-card-mini" style="text-align: center; color: var(--accent);">
+                        ★ 4.9 Rating • 2,400+ Local Reviews
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="c4-chip-top">
+                <span>🍔 Restaurant Flagship</span>
+              </div>
+              <div class="c4-chip-bottom">
+                <span style="font-size:1.2rem;">⚡</span>
+                <div>
+                  <div class="c4-chip-title">WhatsApp Order Flow</div>
+                  <div class="c4-chip-sub" style="color:var(--accent);">Instant Direct Checkout</div>
+                </div>
               </div>
             </div>
 
-            <div class="c4-chip-top" style="border-color:rgba(96,165,250,0.35); color:#60a5fa;">
-              <span>⚡ Live Kitchen System</span>
+            <div class="c4-body">
+              <div class="c4-tags">
+                <span class="c4-tag live">✦ Live Demo</span>
+                <span class="c4-tag">Restaurant</span>
+                <span class="c4-tag">High-Conversion</span>
+              </div>
+              <h3 class="c4-title">
+                Urban Bites — Restaurant Platform
+                <span class="c4-arrow-icon">↗</span>
+              </h3>
+              <p class="c4-desc">
+                Full multi-page restaurant platform engineered with custom interactive menus, direct WhatsApp ordering,
+                and mobile speed optimization.
+              </p>
             </div>
-            <div class="c4-chip-bottom" style="border-color:rgba(96,165,250,0.3);">
-              <span style="font-size:1.2rem;">📊</span>
-              <div>
-                <div class="c4-chip-title">Live Revenue Analytics</div>
-                <div class="c4-chip-sub" style="color:#60a5fa;">Realtime SQLite &amp; WebSockets</div>
+          </div>
+
+          <div class="c4-specs">
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Delivery</span>
+              <span class="c4-spec-val">5 Days Turnaround</span>
+            </div>
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Impact</span>
+              <span class="c4-spec-val">+40% Direct Sales</span>
+            </div>
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Rating</span>
+              <span class="c4-spec-val" style="color:var(--accent);">99 Lighthouse Score</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 4: Smile+ Dental Clinic (Healthcare Portal) -->
+        <a href="https://dentis-sherahmad.netlify.app" target="_blank" class="c4-card dental fade-up">
+          <div class="c4-glow"
+            style="background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);"></div>
+
+          <div>
+            <div class="c4-header-row">
+              <div class="c4-beacon">
+                <span class="c4-beacon-dot" style="background:#38bdf8; box-shadow:0 0 10px #38bdf8;"></span>
+                <span>Verified Client Site</span>
+              </div>
+              <span class="c4-metric-pill"
+                style="color:#38bdf8; background:rgba(56,189,248,0.12); border-color:rgba(56,189,248,0.3);">
+                ✦ 3.2x Booking Rate
+              </span>
+            </div>
+
+            <div class="c4-stage">
+              <div class="c4-browser">
+                <div class="c4-browser-bar">
+                  <div class="c1-dots">
+                    <span class="c1-dot red"></span>
+                    <span class="c1-dot yellow"></span>
+                    <span class="c1-dot green"></span>
+                  </div>
+                  <div class="c4-url-pill">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    dentis-sherahmad.netlify.app
+                  </div>
+                </div>
+
+                <div class="c4-viewport">
+                  <div class="c4-canvas">
+                    <div class="c1-ui-hero dental">
+                      <div class="c1-ui-brand">SMILE<span>+</span> CLINIC</div>
+                      <div class="c1-ui-tag">Advanced Aesthetic Dentistry</div>
+                      <div class="c1-ui-btn" style="background:#38bdf8; color:#000;">Book Consultation →</div>
+                    </div>
+                    <div class="c1-ui-content">
+                      <div class="c1-ui-row">
+                        <div class="c1-ui-card-mini">✦ Teeth Whitening</div>
+                        <div class="c1-ui-card-mini">✦ Invisible Braces</div>
+                      </div>
+                      <div class="c1-ui-card-mini" style="text-align: center; color: #38bdf8;">
+                        📅 3.2x Patient Booking Growth
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="c4-chip-top" style="border-color:rgba(56,189,248,0.35); color:#38bdf8;">
+                <span>🏥 Healthcare Portal</span>
+              </div>
+              <div class="c4-chip-bottom" style="border-color:rgba(56,189,248,0.3);">
+                <span style="font-size:1.2rem;">📅</span>
+                <div>
+                  <div class="c4-chip-title">Online Scheduling</div>
+                  <div class="c4-chip-sub" style="color:#38bdf8;">Instant Confirmation</div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="c4-body">
-            <div class="c4-tags">
-              <span class="c4-tag live" style="border-color:#60a5fa; color:#60a5fa;">✦ Live Web App</span>
-              <span class="c4-tag">SaaS / Architecture</span>
-              <span class="c4-tag">React State</span>
+            <div class="c4-body">
+              <div class="c4-tags">
+                <span class="c4-tag live">✦ Live Demo</span>
+                <span class="c4-tag">Healthcare</span>
+                <span class="c4-tag">Patient UX</span>
+              </div>
+              <h3 class="c4-title">
+                Smile+ Dental Institute
+                <span class="c4-arrow-icon">↗</span>
+              </h3>
+              <p class="c4-desc">
+                High-converting medical patient acquisition portal built for effortless treatment review and automated
+                30-second inquiry submissions.
+              </p>
             </div>
-            <h3 class="c4-title">
-              CrispyPOS — Restaurant Terminal
-              <span class="c4-arrow-icon" style="color:#60a5fa;">↗</span>
-            </h3>
-            <p class="c4-desc">
-              High-performance terminal handling dine-in table layouts, instant KDS notifications, and continuous ticket printing logic.
-            </p>
           </div>
-        </div>
 
-        <div class="c4-specs">
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Tech Stack</span>
-            <span class="c4-spec-val">React + Vite</span>
+          <div class="c4-specs">
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Specialty</span>
+              <span class="c4-spec-val">Medical Clinic UX</span>
+            </div>
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Conversion</span>
+              <span class="c4-spec-val">3.2x Consultation Surge</span>
+            </div>
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Load Time</span>
+              <span class="c4-spec-val" style="color:#38bdf8;">&lt;0.8s First Contentful</span>
+            </div>
           </div>
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Response</span>
-            <span class="c4-spec-val">0ms Latency UI</span>
+        </a>
+
+        <!-- Card 5: CrispyPOS (Cloud POS & Order Terminal) -->
+        <a href="https://crispy-pos.netlify.app" target="_blank" class="c4-card pos fade-up">
+          <div class="c4-glow"
+            style="background: radial-gradient(circle, rgba(96, 165, 250, 0.22) 0%, transparent 70%);"></div>
+
+          <div>
+            <div class="c4-header-row">
+              <div class="c4-beacon">
+                <span class="c4-beacon-dot" style="background:#60a5fa; box-shadow:0 0 10px #60a5fa;"></span>
+                <span>Live POS Platform</span>
+              </div>
+              <span class="c4-metric-pill"
+                style="color:#60a5fa; background:rgba(96,165,250,0.12); border-color:rgba(96,165,250,0.3);">
+                ⚡ Real-Time Kitchen Sync
+              </span>
+            </div>
+
+            <div class="c4-stage">
+              <div class="c4-browser">
+                <div class="c4-browser-bar">
+                  <div class="c1-dots">
+                    <span class="c1-dot red"></span>
+                    <span class="c1-dot yellow"></span>
+                    <span class="c1-dot green"></span>
+                  </div>
+                  <div class="c4-url-pill">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    crispy-pos.netlify.app
+                  </div>
+                </div>
+
+                <div class="c4-viewport">
+                  <div class="c4-canvas">
+                    <div class="c1-ui-hero pos">
+                      <div class="c1-ui-brand" style="color:#60a5fa;">CRISPY<span style="color:#fff;">POS</span></div>
+                      <div class="c1-ui-tag">Cloud POS &amp; Order Routing System</div>
+                      <div class="c1-ui-btn" style="background:#60a5fa; color:#000;">Open Terminal ↓</div>
+                    </div>
+                    <div class="c1-ui-content">
+                      <div class="c1-ui-row">
+                        <div class="c1-ui-card-mini">Daily Rev: <strong style="color:#fff;">$3,420</strong></div>
+                        <div class="c1-ui-card-mini">Tables: <strong style="color:#60a5fa;">18 / 20</strong></div>
+                      </div>
+                      <div class="c1-ui-card-mini" style="text-align: center; color: #60a5fa;">
+                        ⚡ Zero-Latency Kitchen Display Sync
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="c4-chip-top" style="border-color:rgba(96,165,250,0.35); color:#60a5fa;">
+                <span>⚡ Live Kitchen System</span>
+              </div>
+              <div class="c4-chip-bottom" style="border-color:rgba(96,165,250,0.3);">
+                <span style="font-size:1.2rem;">📊</span>
+                <div>
+                  <div class="c4-chip-title">Live Revenue Analytics</div>
+                  <div class="c4-chip-sub" style="color:#60a5fa;">Realtime SQLite &amp; WebSockets</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="c4-body">
+              <div class="c4-tags">
+                <span class="c4-tag live" style="border-color:#60a5fa; color:#60a5fa;">✦ Live Web App</span>
+                <span class="c4-tag">SaaS / Architecture</span>
+                <span class="c4-tag">React State</span>
+              </div>
+              <h3 class="c4-title">
+                CrispyPOS — Restaurant Terminal
+                <span class="c4-arrow-icon" style="color:#60a5fa;">↗</span>
+              </h3>
+              <p class="c4-desc">
+                High-performance terminal handling dine-in table layouts, instant KDS notifications, and continuous
+                ticket printing logic.
+              </p>
+            </div>
           </div>
-          <div class="c4-spec-item">
-            <span class="c4-spec-label">Uptime</span>
-            <span class="c4-spec-val" style="color:#60a5fa;">99.9% Cloud SLA</span>
+
+          <div class="c4-specs">
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Tech Stack</span>
+              <span class="c4-spec-val">React + Vite</span>
+            </div>
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Response</span>
+              <span class="c4-spec-val">0ms Latency UI</span>
+            </div>
+            <div class="c4-spec-item">
+              <span class="c4-spec-label">Uptime</span>
+              <span class="c4-spec-val" style="color:#60a5fa;">99.9% Cloud SLA</span>
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
 
       </div>
 
@@ -4089,7 +4281,9 @@
           </div>
 
           <p class="testimonial-quote">
-            "Before Muaaz built our site, we lost orders to slow PDF menus. The new interactive menu is <strong>lightning-fast on mobile</strong>, and our direct online delivery sales jumped by 40% in our first month."
+            "Before Muaaz built our site, we lost orders to slow PDF menus. The new interactive menu is
+            <strong>lightning-fast on mobile</strong>, and our direct online delivery sales jumped by 40% in our first
+            month."
           </p>
         </div>
 
@@ -4118,7 +4312,8 @@
           </div>
 
           <p class="testimonial-quote">
-            "Patients now review treatments and request appointments in under 30 seconds straight from their phones. The clean medical aesthetic built <strong>immediate patient trust</strong> before they even walked in."
+            "Patients now review treatments and request appointments in under 30 seconds straight from their phones. The
+            clean medical aesthetic built <strong>immediate patient trust</strong> before they even walked in."
           </p>
         </div>
 
@@ -4147,7 +4342,9 @@
           </div>
 
           <p class="testimonial-quote">
-            "Our previous site felt like a generic template. Muaaz engineered an editorial luxury lookbook that mirrors our salon standard. Clients constantly mention they <strong>booked specifically because of our website</strong>."
+            "Our previous site felt like a generic template. Muaaz engineered an editorial luxury lookbook that mirrors
+            our salon standard. Clients constantly mention they <strong>booked specifically because of our
+              website</strong>."
           </p>
         </div>
 
@@ -4274,8 +4471,10 @@
         Available for new projects
       </div>
 
-      <h2 class="contact-title"><span class="contact-title-top"><span class="title-cursor" aria-hidden="true"></span>Ready to</span><br><span class="contact-title-accent">Go Online?</span></h2>
-      <p class="contact-desc">Send me a message today. I'll get back to you within a few hours and we'll figure out exactly what your business needs.</p>
+      <h2 class="contact-title"><span class="contact-title-top"><span class="title-cursor"
+            aria-hidden="true"></span>Ready to</span><br><span class="contact-title-accent">Go Online?</span></h2>
+      <p class="contact-desc">Send me a message today. I'll get back to you within a few hours and we'll figure out
+        exactly what your business needs.</p>
 
       <div class="contact-starter-hint">
         <span class="contact-starter-dot"></span>
@@ -4283,13 +4482,17 @@
       </div>
 
       <div class="contact-starters">
-        <a href="https://wa.me/923391006269?text=Hi%20Muaaz!%20I%20need%20a%20new%20website%20built%20from%20scratch." target="_blank" class="starter-pill">💬 "I need a new website"</a>
-        <a href="https://wa.me/923391006269?text=Hi%20Muaaz!%20I%20have%20an%20existing%20website%20that%20needs%20a%20modern%20redesign." target="_blank" class="starter-pill">💬 "Redesign my existing website"</a>
-        <a href="https://wa.me/923391006269?text=Hi%20Muaaz!%20Can%20you%20share%20a%20quick%20quote%20for%20my%20business%20project?" target="_blank" class="starter-pill">💬 "Get a quick quote"</a>
+        <a href="https://wa.me/923391006269?text=Hi%20Muaaz!%20I%20need%20a%20new%20website%20built%20from%20scratch."
+          target="_blank" class="starter-pill">💬 "I need a new website"</a>
+        <a href="https://wa.me/923391006269?text=Hi%20Muaaz!%20I%20have%20an%20existing%20website%20that%20needs%20a%20modern%20redesign."
+          target="_blank" class="starter-pill">💬 "Redesign my existing website"</a>
+        <a href="https://wa.me/923391006269?text=Hi%20Muaaz!%20Can%20you%20share%20a%20quick%20quote%20for%20my%20business%20project?"
+          target="_blank" class="starter-pill">💬 "Get a quick quote"</a>
       </div>
 
       <div class="contact-methods">
-        <a href="https://wa.me/923391006269?text=Hi%20Muaaz!%20I%20saw%20your%20portfolio%20and%20I'd%20like%20to%20discuss%20a%20website%20project%20for%20my%20business." class="contact-btn whatsapp" target="_blank">
+        <a href="https://wa.me/923391006269?text=Hi%20Muaaz!%20I%20saw%20your%20portfolio%20and%20I'd%20like%20to%20discuss%20a%20website%20project%20for%20my%20business."
+          class="contact-btn whatsapp" target="_blank">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path
               d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
@@ -4318,7 +4521,8 @@
   </footer>
 
   <!-- DYNAMIC ISLAND CONTACT -->
-  <div class="dynamic-island" id="dynamic-island" role="button" tabindex="0" aria-label="Quick contact menu" aria-expanded="false">
+  <div class="dynamic-island" id="dynamic-island" role="button" tabindex="0" aria-label="Quick contact menu"
+    aria-expanded="false">
     <div class="di-icon">
       <span class="di-status-dot" aria-hidden="true"></span>
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -4327,7 +4531,8 @@
       </svg>
     </div>
     <div class="di-content">
-      <a href="https://wa.me/923391006269?text=Hi%20Muaaz!%20I'm%20reaching%20out%20from%20your%20portfolio.%20Let's%20connect%20about%20a%20project." class="di-link wa" target="_blank" rel="noopener noreferrer">
+      <a href="https://wa.me/923391006269?text=Hi%20Muaaz!%20I'm%20reaching%20out%20from%20your%20portfolio.%20Let's%20connect%20about%20a%20project."
+        class="di-link wa" target="_blank" rel="noopener noreferrer">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
           <path
             d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
@@ -4344,18 +4549,21 @@
   </div>
 
   <!-- LIBRARIES -->
-  <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+  <script defer src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 
   <!-- WOW: LIQUID GLITCH SVG FILTER -->
-  <svg class="wow-svg-filters" aria-hidden="true" style="position: absolute; width: 0; height: 0; pointer-events: none;">
+  <svg class="wow-svg-filters" aria-hidden="true"
+    style="position: absolute; width: 0; height: 0; pointer-events: none;">
     <defs>
       <filter id="wow-liquid" x="-20%" y="-20%" width="140%" height="140%">
         <feTurbulence type="fractalNoise" baseFrequency="0.015 0.03" numOctaves="2" seed="3" result="noise">
-          <animate attributeName="baseFrequency" dur="14s" values="0.015 0.03;0.025 0.045;0.015 0.03" repeatCount="indefinite" />
+          <animate attributeName="baseFrequency" dur="14s" values="0.015 0.03;0.025 0.045;0.015 0.03"
+            repeatCount="indefinite" />
         </feTurbulence>
         <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" result="disp">
-          <animate id="wow-liquid-scale" attributeName="scale" dur="2.4s" values="0;0;22;0;0" keyTimes="0;0.7;0.8;0.9;1" repeatCount="indefinite" />
+          <animate id="wow-liquid-scale" attributeName="scale" dur="2.4s" values="0;0;22;0;0" keyTimes="0;0.7;0.8;0.9;1"
+            repeatCount="indefinite" />
         </feDisplacementMap>
         <feGaussianBlur in="disp" stdDeviation="0.2" />
       </filter>
@@ -4378,18 +4586,15 @@
         const count = document.getElementById('wow-preloader-count');
         if (!pre || prefersReduced) return;
 
-        // Wait for the Syne headline font before showing logo/count text —
-        // kills the narrow-fallback -> wide-Syne width jump on the "M."
-        const FONT_TIMEOUT = 1500;
-        const fontReady = (document.fonts && document.fonts.load)
-          ? Promise.race([
-              document.fonts.load('800 60px Syne').then(() => document.fonts.ready),
-              new Promise((res) => setTimeout(res, FONT_TIMEOUT)),
-            ])
-          : Promise.resolve();
-        fontReady.then(() => pre.classList.add('wow-fonts-ready'));
+        // Ensure Syne font is loaded before showing preloader logo so generic fallback is NEVER shown
+        const onFontReady = () => pre.classList.add('wow-fonts-ready');
+        if (document.fonts && document.fonts.load) {
+          document.fonts.load('800 60px Syne').then(onFontReady).catch(onFontReady);
+        } else {
+          onFontReady();
+        }
 
-        const DURATION = 3000;
+        const DURATION = 700;
         const start = performance.now();
         let finished = false;
 
@@ -4413,8 +4618,8 @@
             if (count) count.textContent = '100%';
             setTimeout(() => {
               pre.classList.add('done');
-              setTimeout(() => pre.remove(), 750);
-            }, 400);
+              setTimeout(() => pre.remove(), 450);
+            }, 120);
           }
         })(start);
 
@@ -4426,7 +4631,7 @@
           if (fill) fill.style.width = '100%';
           if (count) count.textContent = '100%';
           pre.classList.add('done');
-          setTimeout(() => pre.remove(), 750);
+          setTimeout(() => pre.remove(), 450);
         }, DURATION + 100);
       })();
 
@@ -4828,18 +5033,28 @@
       })();
     })();
 
-    // 1. Lenis Smooth Scroll
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 1,
-      smoothTouch: false
-    });
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+    // 1. Lenis Smooth Scroll (deferred-safe initialization)
+    let lenis;
+    function initLenis() {
+      if (typeof Lenis !== 'undefined') {
+        lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          touchMultiplier: 1,
+          smoothTouch: false
+        });
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+      }
     }
-    requestAnimationFrame(raf);
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', initLenis);
+    } else {
+      initLenis();
+    }
 
     // 2. Observer Animations
     const observer = new IntersectionObserver((entries) => {
@@ -4851,17 +5066,19 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    // 3. Hero Text Reveal — starts AFTER preloader completes (~3.4s) for premium feel
-    window.addEventListener('DOMContentLoaded', () => {
-      const PRELOADER_WAIT = WOW_PREFERS_REDUCED ? 0 : 3450;
-      setTimeout(() => {
-        document.querySelectorAll('.reveal-text').forEach((el, index) => {
-          setTimeout(() => {
-            el.classList.add('visible');
-          }, index * 200);
-        });
-      }, PRELOADER_WAIT);
-    });
+    // 3. Hero Text Reveal — rendered immediately behind preloader for instant LCP
+    function revealHeroContent() {
+      document.querySelectorAll('.reveal-text').forEach((el, index) => {
+        setTimeout(() => {
+          el.classList.add('visible');
+        }, index * 60);
+      });
+    }
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', revealHeroContent);
+    } else {
+      revealHeroContent();
+    }
 
     // 4. Dynamic Directional Mouse-Tracking 3D Tilt (Concept 4 Cards)
     (function initDynamic3DTilt() {
@@ -5298,7 +5515,7 @@
         const matches = dx < 0
           ? TRAJECTORY_POOL.filter(t => (t.side === 'left' || t.side === 'up') && t.name !== currentName)
           : TRAJECTORY_POOL.filter(t => (t.side === 'right' || t.side === 'up') && t.name !== currentName);
-        
+
         const candidatePool = matches.length > 0 ? matches : TRAJECTORY_POOL;
         return candidatePool[Math.floor(Math.random() * candidatePool.length)];
       }
@@ -5658,7 +5875,7 @@
 
       window.addEventListener('mousemove', (e) => {
         if (!isMouseDown || !isMobile()) return;
-        handleTouchMove({ touches: [e], cancelable: true, preventDefault: () => {} });
+        handleTouchMove({ touches: [e], cancelable: true, preventDefault: () => { } });
       });
 
       window.addEventListener('mouseup', (e) => {
@@ -5680,6 +5897,12 @@
       window.addEventListener('scroll', onScroll, { passive: true });
       if (typeof lenis !== 'undefined' && lenis && typeof lenis.on === 'function') {
         lenis.on('scroll', onScroll);
+      } else {
+        window.addEventListener('DOMContentLoaded', () => {
+          if (typeof lenis !== 'undefined' && lenis && typeof lenis.on === 'function') {
+            lenis.on('scroll', onScroll);
+          }
+        });
       }
 
       window.addEventListener('load', () => {
